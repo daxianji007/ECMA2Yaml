@@ -700,6 +700,10 @@ namespace ECMA2Yaml.Models
             {
                 t.InheritanceUids = new List<string>();
                 string baseUid = t.BaseType.Uid;
+                if (baseUid == t.Uid)
+                {
+                    return;
+                }
                 AddInheritanceMapping(t.Uid, baseUid);
                 do
                 {
