@@ -529,21 +529,10 @@ namespace ECMA2Yaml.Models
                             Parent = t
                         });
                     }
-                    var displayName = m.DisplayName;
-                    if (displayName.Contains('('))
-                    {
-                        displayName = displayName.Substring(0, displayName.LastIndexOf('('));
-                    }
-                    if (displayName.Contains('<'))
-                    {
-                        if (!displayName.Contains('.') || displayName.LastIndexOf('<') > displayName.LastIndexOf('.'))
-                        {
-                            displayName = displayName.Substring(0, displayName.LastIndexOf('<'));
-                        }
-                    }
+                    var displayName = TrimDisplayName(m.DisplayName);
                     overloads[id].Id = id;
                     overloads[id].DisplayName = m.ItemType == ItemType.Constructor ? t.Name : displayName;
-                    overloads[id].FullDisplayName = t.FullName + "." + overloads[id].DisplayName;
+                    overloads[id].FullDisplayName = overloads[id].FullDisplayName ?? TrimDisplayName(m.FullDisplayName);
                     overloads[id].SourceFileLocalPath = m.SourceFileLocalPath;
 
                     if (overloads[id].AssemblyInfo == null)
@@ -565,6 +554,25 @@ namespace ECMA2Yaml.Models
                 }
             }
 
+            string TrimDisplayName(string displayName)
+            {
+                if (displayName.Contains('('))
+                {
+                    displayName = displayName.Substring(0, displayName.LastIndexOf('('));
+                }
+                //if (displayName.Contains('['))
+                //{
+                //    displayName = displayName.Substring(0, displayName.LastIndexOf('['));
+                //}
+                if (displayName.Contains('<'))
+                {
+                    if (!displayName.Contains('.') || displayName.LastIndexOf('<') > displayName.LastIndexOf('.'))
+                    {
+                        displayName = displayName.Substring(0, displayName.LastIndexOf('<'));
+                    }
+                }
+                return displayName;
+            }
         }
 
         private void BuildAttributes()
