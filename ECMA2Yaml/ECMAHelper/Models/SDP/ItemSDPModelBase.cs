@@ -143,6 +143,10 @@ namespace ECMA2Yaml.Models.SDP
         [YamlMember(Alias = "xamlMemberSyntax")]
         public string XamlMemberSyntax { get; set; }
 
+        [JsonProperty("source")]
+        [YamlMember(Alias = "source")]
+        public SourceDetail Source { get; set; }
+
         [JsonProperty("metadata")]
         [YamlMember(Alias = "metadata")]
         public Dictionary<string, object> Metadata { get; set; }
